@@ -28,8 +28,8 @@ done
 sleep 5
 
 while IFS= read -r ip_address; do
-  scp -o StrictHostKeyChecking=no ~/all_node_list root@$ip_address:/root/
-  scp -o StrictHostKeyChecking=no ~/script/chrony.sh root@$ip_address:/root/
+  scp -o StrictHostKeyChecking=no ./all_node_list root@$ip_address:/root/
+  scp -o StrictHostKeyChecking=no ./script/chrony.sh root@$ip_address:/root/
 done < "all_node_list"
 
 while IFS= read -r ip_address; do
