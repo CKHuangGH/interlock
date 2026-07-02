@@ -3,9 +3,7 @@ set -e
 
 pids=()
 
-python3 ./cluster/vm-management-cluster.py &
-
-sleep 10
+python3 ./cluster/vm-management-cluster.py
 
 python3 ./cluster/vm-member-cluster-1.py &
 pids+=($!)
