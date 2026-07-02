@@ -2,8 +2,9 @@
 helm repo add cilium https://helm.cilium.io/
 helm repo update
 helm install cilium cilium/cilium \
-  --version 1.17.6 \
+  --version 1.19.5 \
   --namespace kube-system \
+  --wait \
   --set operator.replicas=1 \
   --set operator.nodeSelector."node-role\.kubernetes\.io/control-plane"="" \
   --set operator.tolerations[0].key=node-role.kubernetes.io/control-plane \
@@ -15,4 +16,3 @@ helm install cilium cilium/cilium \
   --set operator.tolerations[2].key=node.kubernetes.io/unreachable \
   --set operator.tolerations[2].operator=Exists \
   --set operator.tolerations[2].effect=NoExecute
-sleep 30

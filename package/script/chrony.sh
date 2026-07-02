@@ -1,4 +1,4 @@
-NODE_LIST="./node_ip_all"
+NODE_LIST="./all_node_list"
 TIMESTAMP="$(date +%Y%m%d%H%M%S)"
 
 
