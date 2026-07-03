@@ -40,6 +40,17 @@ done < "all_node_list"
 
 wait
 
+cluster=1
+tail -n +2 cp_node_list > cp_node_list_without_management
+while read -r ip; do
+	scp -o StrictHostKeyChecking=no /root/.kube/config root@$ip:/root/.kube
+	ssh -n -o StrictHostKeyChecking=no root@$ip chmod 777 /root/interlock/package/script/member_clusters.sh
+	ssh -n -o StrictHostKeyChecking=no root@$ip bash /root/interlock/package/script/member_clusters.sh $cluster &
+	cluster=$((cluster+1))
+done < "cp_node_list_without_management"
+
+wait
+
 helm repo add cilium https://helm.cilium.io/
 helm repo update
 helm install cilium cilium/cilium \
@@ -58,15 +69,19 @@ helm install cilium cilium/cilium \
   --set operator.tolerations[2].operator=Exists \
   --set operator.tolerations[2].effect=NoExecute
 
-cluster=1
-tail -n +2 cp_node_list > cp_node_list_without_management
-while read -r ip; do
-	scp -o StrictHostKeyChecking=no /root/.kube/config root@$ip:/root/.kube
-	ssh -n -o StrictHostKeyChecking=no root@$ip chmod 777 /root/interlock/package/script/member_clusters.sh
-	ssh -n -o StrictHostKeyChecking=no root@$ip bash /root/interlock/package/script/member_clusters.sh $cluster &
-	cluster=$((cluster+1))
-done < "cp_node_list_without_management"
-
-wait
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install prom prometheus-community/kube-prometheus-stack \
+  --version 87.6.0 \
+  --namespace monitoring \
+  --wait \
+  --create-namespace \
+  --set grafana.enabled=false \
+  --set alertmanager.enabled=false \
+  --set prometheus.service.type=NodePort \
+  --set prometheus.prometheusSpec.scrapeInterval="5s" \
+  --set prometheus.prometheusSpec.enableAdminAPI=true \
+  --set prometheus.prometheusSpec.resources.requests.cpu="1000m" \
+  --set prometheus.prometheusSpec.resources.requests.memory="1024Mi"
 
 cp cp_node_list_without_management ./exps/motivation/cp_node_list_without_management

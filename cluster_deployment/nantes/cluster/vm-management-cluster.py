@@ -48,14 +48,14 @@ for i in range(0,1):
             roles=["cp"],
             number=cp,
             undercloud=roles["role0"],
-            flavour_desc={"core": 8, "mem": 16384},
+            flavour_desc={"core": 4, "mem": 8192},
             macs=list(subnet[0].free_macs)[start:start+cp],
         )
         .add_machine(
             roles=["member"],
             number=w1,
             undercloud=roles["role0"],
-            flavour_desc={"core": 8, "mem": 16384},
+            flavour_desc={"core": 4, "mem": 8192},
             macs=list(subnet[0].free_macs)[start+cp:start+cp+w1],
         ).finalize()
     )

@@ -55,7 +55,7 @@ for i in range(0,2):
             roles=["member"],
             number=w1,
             undercloud=roles["role0"],
-            flavour_desc={"core": 2, "mem": 4096},
+            flavour_desc={"core": 4, "mem": 8192},
             macs=list(subnet[0].free_macs)[start+cp:start+cp+w1],
         ).finalize()
     )
