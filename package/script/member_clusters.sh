@@ -1,4 +1,8 @@
 #!/bin/bash
+number=$1
+
+kubectl config use-context cluster$number
+
 helm repo add cilium https://helm.cilium.io/
 helm repo update
 helm install cilium cilium/cilium \

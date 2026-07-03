@@ -61,9 +61,9 @@ helm install cilium cilium/cilium \
 cluster=1
 tail -n +2 cp_node_list > cp_node_list_without_management
 while read -r ip; do
-	scp -o StrictHostKeyChecking=no /root/.kube/config root@$i:/root/.kube
-	ssh -n -o StrictHostKeyChecking=no root@$i chmod 777 /root/interlock/package/script/member_clusters.sh
-	ssh -n -o StrictHostKeyChecking=no root@$i bash /root/interlock/package/script/member_clusters.sh $cluster &
+	scp -o StrictHostKeyChecking=no /root/.kube/config root@$ip:/root/.kube
+	ssh -n -o StrictHostKeyChecking=no root@$ip chmod 777 /root/interlock/package/script/member_clusters.sh
+	ssh -n -o StrictHostKeyChecking=no root@$ip bash /root/interlock/package/script/member_clusters.sh $cluster &
 	cluster=$((cluster+1))
 done < "cp_node_list_without_management"
 
