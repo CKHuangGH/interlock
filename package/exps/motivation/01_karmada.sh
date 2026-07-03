@@ -1,5 +1,11 @@
 #!/bin/bash
 
+curl -s https://github.com/karmada-io/karmada/releases/download/v1.18.1/kubectl-karmada-linux-amd64.tgz | sudo bash -s kubectl-karmada
+
+tar -xzf /tmp/kubectl-karmada-linux-amd64.tgz -C /tmp
+
+sudo install -m 0755 /tmp/kubectl-karmada /usr/local/bin/kubectl-karmada
+
 kubectl config use-context cluster0
 
 # for i in $(cat node_exec)
