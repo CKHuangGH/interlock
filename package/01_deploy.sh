@@ -68,3 +68,5 @@ while read -r ip; do
 done < "cp_node_list_without_management"
 
 wait
+
+cp cp_node_list_without_management ./exps/motivation/cp_node_list_without_management
