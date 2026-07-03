@@ -7,4 +7,6 @@ do
 	kubectl get pod -A --field-selector=status.phase!=Running
 done
 
+kubectl config use-context cluster0
+
 echo "screen -S mysession"
